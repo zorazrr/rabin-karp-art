@@ -10,6 +10,8 @@ class RK
 
     int[] hashVals;                                                // hash values
     int index;                                                     // hash values
+    String txt;
+    String wd;
     
      RK(String txt, String wd)
     {
@@ -30,17 +32,19 @@ class RK
         }
         prime = numOfAlph;
         hashVals = new int[txt.length() - wd.length() + 1];
-        index = rk(txt, wd);
+        this.txt = txt;
+        this.wd = wd;
+        rk();
     }
     
     private int getHash(String txt, int index, int exp) {
         int hash = 0;
         char letter = txt.charAt(index);
-        hash += scores[alphabetString.indexOf(letter)] * pow(prime, exp);
+        hash += alphabetString.indexOf(letter) * pow(prime, exp);
         return hash;
     }
 
-    private int rk(String txt, String wd) {
+    private void rk() {
         // Get information of the word that we are searching for 
         int wdHash = 0; 
         int wdLen = wd.length();
@@ -60,20 +64,30 @@ class RK
         hashVals[0] = txtHash;
 
         // rolling hash
+        boolean found = false;
         for (int i = wdLen; i < txtLen; i++) {
             
-            if (wdHash == txtHash) {
-                return i - wdLen;
-            } else {
-                int newHash = getHash(txt, i, wdLen - 1);
-                int oldHash = getHash(txt, (i - wdLen), 0);
-                txtHash = (txtHash - oldHash)/prime + newHash;
+            //println(wdHash + " " + txtHash);
+            
+            if (!found && wdHash == txtHash) {
+                index = i - wdLen;
+                found = true;
             }
+            
+            int newHash = getHash(txt, i, wdLen - 1);
+            int oldHash = getHash(txt, (i - wdLen), 0);
+            txtHash = (txtHash - oldHash)/prime + newHash;
+            
             hashVals[i - wdLen + 1] = txtHash;
         }
-        if (wdHash == txtHash) {
-            return txtLen - wdLen;
+        if (!found) {
+            if(wdHash == txtHash){
+                index = txtLen - wdLen;
+            }
+            else
+            {
+                index = -1;
+            }
         }
-        return -1;
     }
 }
