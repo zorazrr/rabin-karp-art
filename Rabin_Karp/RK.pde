@@ -2,21 +2,15 @@
 
 class RK
 {
-    
-    // char[] alphabet;                                            // Usable alphabets
     String alphabetString;                                         // Index reference
-    // int[] scores = {1,2,3,4};                                   // Matching scores
     int prime;                                                     // Prime number
 
     int[] hashVals;                                                // hash values
-    int index;                                                     // hash values
+    int index;                                                     // first occurance index
     String txt;
     String wd;
     
-     RK(String txt, String wd)
-    {
-        this(txt, wd, 4);
-    }
+
     
     /**
      * @param     txt         long text need to be seaerch through
@@ -35,6 +29,16 @@ class RK
         this.txt = txt;
         this.wd = wd;
         rk();
+    }
+    
+     /**
+     * @param     txt         len of the random txt
+     *            wd          len of the random wd
+     *            numOfAlph   the number of Alph exist in txt and wd (counting from `a`)
+     */
+    RK(int txtLen, int wdLen, int numOfAlph)
+    {
+        this(randString(txtLen, numOfAlph), randString(wdLen, numOfAlph), numOfAlph);
     }
     
     private int getHash(String txt, int index, int exp) {
@@ -67,8 +71,6 @@ class RK
         boolean found = false;
         for (int i = wdLen; i < txtLen; i++) {
             
-            //println(wdHash + " " + txtHash);
-            
             if (!found && wdHash == txtHash) {
                 index = i - wdLen;
                 found = true;
@@ -80,6 +82,7 @@ class RK
             
             hashVals[i - wdLen + 1] = txtHash;
         }
+        
         if (!found) {
             if(wdHash == txtHash){
                 index = txtLen - wdLen;
