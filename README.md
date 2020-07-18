@@ -1,1 +1,1 @@
-# rabin-karp-art
+# Rabin Karp Generative Art
