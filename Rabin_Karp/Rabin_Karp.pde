@@ -15,63 +15,33 @@ void setup() {
 }
 
 void draw() {
-  String pattern = randString(4);
-  String text = randString(30);
-  println(text);
-  println(pattern);
-  print(rk(text,pattern));
+  test(1000);
   noLoop();
+}
+
+void test(int times)
+{
+    for(int i = 0; i < times; i++)
+    {
+        String pattern = randString(2);
+        String text = randString(30);
+        RK rk = new RK(text, pattern);
+        if(rk.index != text.indexOf(pattern))
+        {
+            println("Error!!\n\t" + text + " and " + pattern + ": ");
+            println("\trk:   " + rk.index);
+            println("\treal: " + text.indexOf(pattern));
+            return;
+        }
+    }
+    
+    println("All good!");
 }
 
 String randString(int len){
   String holder = "";
   for (int i = 0; i < len; i++){
-    int rand = (int) random(0,4);
-    if (rand == 0){holder += "a";}
-    else if (rand == 1){holder += "b";}
-    else if (rand == 2){holder += "c";}
-    else {holder += "d"; }
+    holder += char('a' + (int) random(0, 4));
   }
   return holder;
-}
-
-int getHash(String txt, int index, int exp){
-  int hash = 0;
-  char letter = txt.charAt(index);
-  hash += scores[alphabetString.indexOf(letter)] * pow(prime, exp);
-  return hash;
-}
-
-boolean rk(String txt, String wd){
-  // Get information of the word that we are searching for 
-  int wdHash = 0; 
-  int wdLen = wd.length();
-  for (int i = 0; i < wd.length(); i++){
-    wdHash += getHash(wd, i, i);
-  }
-  
-  // Get information of the document that we are searching in 
-  int txtLen = txt.length(); 
-  int txtHash = 0; 
-  
-  // get first hash
-  for (int i = 0; i < wdLen; i++){
-    txtHash += getHash(txt, i, i);
-  }
-  
-  // rolling hash
-  for (int i = wdLen; i < txtLen; i++){
-    if (wdHash == txtHash){
-      return true;
-    }
-    else{
-      int newHash = getHash(txt, i, wdLen - 1);
-      int oldHash = getHash(txt, (i - wdLen), 0);
-      txtHash = (txtHash - oldHash)/prime + newHash;
-    }
-    if (wdHash == txtHash){
-      return true;
-    }
-  }
-  return false;
 }
