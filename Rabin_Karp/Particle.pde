@@ -36,8 +36,8 @@ class Particle{
             int dirSign = isRightOrDown? 1:-1;
             
             pos = randStartPos(isVert);
-            if(isVert)   vel = new PVector(rk.getNext(0.5,2) * dirSign, 0);
-            else         vel = new PVector(0, rk.getNext(0.5,2) * dirSign);
+            if(isVert)   vel = new PVector(rk.getNext(1,3) * dirSign, 0);
+            else         vel = new PVector(0, rk.getNext(1,3) * dirSign);
         }
     }
     
@@ -115,9 +115,18 @@ class Particle{
     
     void addLayer(color col)
     {
-        layer += 1;
-        realDia += layerDia;
-        colors.append(col);
+        if(diag){
+            if(rk.getNext(1) > 0.2)
+            {
+                return;
+            }
+        }
+        if(rk.getNext(layer+3) > layer)
+        {
+            layer += 1;
+            realDia += layerDia;
+            colors.append(col);
+        }
     }
     
     void display()
