@@ -46,20 +46,33 @@ class Link{
             {
                 p1.addLayer(p2.c);
                 p2.addLayer(p1.c);
-                //p1.display();
-                //p2.display();
-                l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel), p1.c);
-                l2 = new Line(p2.pos, PVector.add(p2.pos,p2.vel), p2.c);
-                lines.add(l1);
-                lines.add(l2);
-                //p1.vel.mult(0.97);
-                //p2.vel.mult(0.97);
+                if(p1.diag)
+                {
+                    l1 = new Line(p1.pos, PVector.add(p1.pos,PVector.mult(p1.vel, p1.realDia / p1.vel.mag())), p1.c);
+                    lines.add(l1);
+                }
+                else
+                {
+                    l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel), p1.c);
+                    lines.add(l1);
+                }
+                
+                if(p2.diag)
+                {
+                    l2 = new Line(p2.pos, PVector.add(p2.pos,PVector.mult(p2.vel, p2.realDia / p2.vel.mag())), p2.c);
+                    lines.add(l2);
+                }
+                else
+                {
+                    l2 = new Line(p2.pos, PVector.add(p2.pos,p2.vel), p2.c);
+                    lines.add(l2);
+                }
                 isColliding = true;
             }
             else
             {
-                l1.end.add(p1.vel);
-                l2.end.add(p2.vel);
+                if(!p1.diag) l1.end.add(p1.vel);
+                if(!p2.diag) l2.end.add(p2.vel);
             }
             
         }

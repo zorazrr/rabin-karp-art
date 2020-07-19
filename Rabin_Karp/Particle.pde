@@ -25,7 +25,7 @@ class Particle{
         // a 1/5 chance that the particle moves in diagonal 
         if ((int)(rk.getNext(5)) == 2){
             pos = new PVector((int) (randHolder[(int)rk.getNext(2)] * height), (int) (randHolder[(int)rk.getNext(2)] * width));
-            vel = new PVector(rk.getNext(1,3), rk.getNext(1,3));
+            vel = new PVector(rk.getNext(1,3), rk.getNext(3,5));
             diag = true;
         }
         else {
@@ -36,8 +36,8 @@ class Particle{
             int dirSign = isRightOrDown? 1:-1;
             
             pos = randStartPos(isVert);
-            if(isVert)   vel = new PVector(rk.getNext(1,3) * dirSign, 0);
-            else         vel = new PVector(0, rk.getNext(1,3) * dirSign);
+            if(isVert)   vel = new PVector(rk.getNext(3,5) * dirSign, 0);
+            else         vel = new PVector(0, rk.getNext(3,5) * dirSign);
         }
     }
     
