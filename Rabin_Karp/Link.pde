@@ -39,8 +39,8 @@ class Link{
                 p2.layer += 1;
                 p1.colors.append(p2.c);
                 p2.colors.append(p1.c);
-                p1.display();
-                p2.display();
+                //p1.display();
+                //p2.display();
                 l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel), p1.c);
                 l2 = new Line(p2.pos, PVector.add(p2.pos,p2.vel), p2.c);
                 lines.add(l1);

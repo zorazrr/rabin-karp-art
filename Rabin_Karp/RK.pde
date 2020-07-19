@@ -1,5 +1,3 @@
-
-
 class RK
 {
     String alphabetString;                                         // Index reference
@@ -8,7 +6,8 @@ class RK
     int index;                                                     // first occurance index
     String txt;                                                    // text need to be searched through
     String wd;                                                     // word looking for
-    int count = -1; 
+    int count = -1;
+    int max;                                                       // max hash value
 
     
     /**
@@ -16,17 +15,18 @@ class RK
      *            wd          word to look for
      *            numOfAlph   the number of Alph exist in txt and wd (counting from `a`)
      */
-    RK(String txt, String wd, int numOfAlph)
+    RK(String txt, String wd, int numofalph)
     {
         alphabetString = "";
-        for(char i = 'a'; i < 'a' + numOfAlph; i++)
+        for(char i = 'a'; i < 'a' + numofalph; i++)
         {
             alphabetString += char(i);
         }
-        prime = numOfAlph;
+        prime = numofalph;
         hashVals = new int[txt.length() - wd.length() + 1];
         this.txt = txt;
         this.wd = wd;
+        max = (int) pow(numofalph, wd.length()) - 1;
         rk();
     }
     
@@ -35,9 +35,9 @@ class RK
      *            wd          len of the random wd
      *            numOfAlph   the number of Alph exist in txt and wd (counting from `a`)
      */
-    RK(int txtLen, int wdLen, int numOfAlph)
+    RK(int txtLen, int wdLen, int numofalph)
     {
-        this(randString(txtLen, numOfAlph), randString(wdLen, numOfAlph), numOfAlph);
+        this(randString(txtLen, numofalph), randString(wdLen, numofalph), numofalph);
     }
     
     private int getHash(String txt, int index, int exp) {
@@ -93,9 +93,32 @@ class RK
         }
     }
     
-    private int getNext(){
-      count += 1;
-      return hashVals[count];
+    float getNext(float a, float b)
+    {
+        count += 1;
+        if(count >= hashVals.length)
+            reset();
+        return map(hashVals[count],0,max,a,b);
+    }
+    
+    float getNext(float a){
+      return getNext(0,a);
+    }
+    
+    int getNext()
+    {
+        count += 1;
+        if(count >= hashVals.length)
+            reset();
+        return hashVals[count];
+    }
+    
+    void reset()
+    {
+        this.txt = randString(txt.length(), alphabetString.length());
+        println(txt + " " + wd);
+        count = 0;
+        rk();
     }
     
     void display(){

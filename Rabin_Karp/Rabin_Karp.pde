@@ -38,22 +38,28 @@ void setup()
         }
     }
     
+    strokeWeight(3);
     size(500, 500);
     pixelDensity(2);
 }
 
 void draw()
 {
+    //RK rk = new RK(20,4,10);
+    //println(rk.txt + " " + rk.wd);
+    //for(int i = 0; i < 100; i++)
+    //{
+        
+    //    println(rk.getNext(4));
+    //}
+    //noLoop();
     background(255);
     displayLines();
     for(Particle p : ps)
     {
         p.update();
         p.edges();
-        //p.display();
-        for (int i = p.layer; i > 0; i --){
-          p.display();
-        }
+        p.display();
     }
     checkColliding();
 }
@@ -90,10 +96,10 @@ void test(int times)
     println("All good!");
 }
 
-String randString(int len, int numOfAlph){
+String randString(int len, int num){
   String holder = "";
   for (int i = 0; i < len; i++){
-    holder += char('a' + (int) random(0, numOfAlph));
+    holder += char('a' + (int) random(0, num));
   }
   return holder;
 }
