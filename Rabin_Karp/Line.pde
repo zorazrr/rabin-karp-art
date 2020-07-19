@@ -3,6 +3,8 @@ class Line
     color c;
     PVector start;
     PVector end;
+    int w;
+    
     
     Line(PVector start, PVector end)
     {
@@ -28,6 +30,7 @@ class Line
     
     void display()
     {
+        strokeWeight(w);
         stroke(c);
         line(start.x, start.y, end.x, end.y);
     }
