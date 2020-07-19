@@ -3,17 +3,70 @@
 
 import java.util.*; 
 
+Particle[] ps;
+
+Link[] links;
+
+ArrayList<Line> lines;
+
+int numOfParticle = 20;
+
 int numOfAlph = 4;                          // the number of Alphs exist in txt and wd (counting from `a`)
 
-void setup() {
-  size(500, 500);
-  pixelDensity(2);
+void setup()
+{
+    // init particles
+    ps = new Particle[numOfParticle];
+    for(int i = 0; i < numOfParticle; i++)
+    {
+        ps[i] = new Particle(); 
+    }
+    
+    //init lines
+    lines = new ArrayList<Line>();
+    
+    // init links
+    links = new Link[numOfParticle * (numOfParticle - 1) / 2];
+    int count = 0;
+    for(int i = 0; i < numOfParticle; i++)
+    {
+        for(int j = i+1; j < numOfParticle; j++)
+        {
+            links[count++] = new Link(ps[i], ps[j]);
+        }
+    }
+    
+    size(500, 500);
+    pixelDensity(2);
+    fill(127);
 }
 
-void draw() {
-  test(1000);
-  noLoop();
+void draw()
+{
+    background(255);
+    for(Particle p : ps)
+    {
+        p.update();
+        p.edges();
+        p.display();
+    }
+    checkColliding();
+    displayLines();
 }
+
+void checkColliding()
+{
+    for(Link l : links)
+    {
+        l.collide();
+    }
+}
+
+void displayLines()
+{
+    for(Line l : lines) l.display();
+}
+
 
 // unit testing
 
