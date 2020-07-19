@@ -69,8 +69,8 @@ class RK
         // rolling hash
         boolean found = false;
         for (int i = wdLen; i < txtLen; i++) {
-            
-            if (!found && wdHash == txtHash) {
+          
+          if (!found && wdHash == txtHash && checkCollision(txt,wd,i)) {
                 index = i - wdLen;
                 found = true;
             }
@@ -83,7 +83,7 @@ class RK
         }
         
         if (!found) {
-            if(wdHash == txtHash){
+            if(wdHash == txtHash && checkCollision(txt,wd,txtLen)){
                 index = txtLen - wdLen;
             }
             else
@@ -93,6 +93,18 @@ class RK
         }
     }
     
+    private boolean checkCollision(String txt, String wd, int i){
+        int index = i - wd.length();
+        boolean holder = true;
+        for(int j = 0; j < wd.length(); j++){
+          if (txt.charAt(index + j) != wd.charAt(j)){
+            holder = false;
+          }
+        }
+        return holder;
+    }
+    
+    // get number from array of hash values, map to min-a, max-b
     float getNext(float a, float b)
     {
         count += 1;
@@ -101,10 +113,12 @@ class RK
         return map(hashVals[count],0,max,a,b);
     }
     
+    // get number from array of hash values, map to min-0, max-a
     float getNext(float a){
       return getNext(0,a);
     }
     
+    // get numbders from array of hash values
     int getNext()
     {
         count += 1;
@@ -113,6 +127,7 @@ class RK
         return hashVals[count];
     }
     
+    // generate new strings, reset count, redo searching
     void reset()
     {
         this.txt = randString(txt.length(), alphabetString.length());
