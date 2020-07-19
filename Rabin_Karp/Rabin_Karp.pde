@@ -44,6 +44,7 @@ void setup()
 void draw()
 {
     background(255);
+    displayLines();
     for(Particle p : ps)
     {
         p.update();
@@ -51,7 +52,6 @@ void draw()
         p.display();
     }
     checkColliding();
-    displayLines();
 }
 
 void checkColliding()
