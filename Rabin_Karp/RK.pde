@@ -4,16 +4,15 @@ class RK
 {
     String alphabetString;                                         // Index reference
     int prime;                                                     // Prime number
-
     int[] hashVals;                                                // hash values
     int index;                                                     // first occurance index
-    String txt;
-    String wd;
-    
+    String txt;                                                    // text need to be searched through
+    String wd;                                                     // word looking for
+    int count = -1; 
 
     
     /**
-     * @param     txt         long text need to be seaerch through
+     * @param     txt         long text need to be searched through
      *            wd          word to look for
      *            numOfAlph   the number of Alph exist in txt and wd (counting from `a`)
      */
@@ -93,4 +92,21 @@ class RK
             }
         }
     }
+    
+    private int getNext(){
+      count += 1;
+      return hashVals[count];
+    }
+    
+    void display(){
+      for (int i = 0; i < 5; i++){
+        float len = constrain(this.getNext(),0,height);
+        if ((int)random(2) == 2){
+          line(0,width/2, len, width/2);
+      }
+      else {
+        line(height/2, 0, height/2, len);
+      }
+    }
+}
 }
