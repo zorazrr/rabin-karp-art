@@ -35,10 +35,14 @@ class Link{
         {
             if(!isColliding)
             {
-                p1.dia += 1;
-                p2.dia += 1;
-                l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel));
-                l2 = new Line(p2.pos, PVector.add(p2.pos,p2.vel));
+                p1.layer += 1;
+                p2.layer += 1;
+                p1.colors.append(p2.c);
+                p2.colors.append(p1.c);
+                p1.display();
+                p2.display();
+                l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel), p1.c);
+                l2 = new Line(p2.pos, PVector.add(p2.pos,p2.vel), p2.c);
                 lines.add(l1);
                 lines.add(l2);
                 //p1.vel.mult(0.97);
@@ -58,6 +62,7 @@ class Link{
         }
     }
     
+    // check if the two particles overlap 
     boolean isColliding()
     {
         float dis = PVector.sub(p2.pos, (p1.pos)).mag();
