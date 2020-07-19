@@ -7,9 +7,11 @@ class Particle{
     float realDia;               // initial size   
     boolean isVert;
     boolean isRightOrDown;
+    boolean diag;
+    float layerDia = 5;
     int layer = 0;
     color c;                      // initial color 
-    color[] palette = {#265b94, #dbf7ff, #d6caae, #363231};
+    color[] palette = {#cfccfa, #5c7b65, #4c99c6, #cacaca, #a8a8a8, #ffffff, #12375b, #98d9d8, #000000, #878787};//{#265b94, #dbf7ff, #d6caae, #363231};
     IntList colors = new IntList();
     RK rk;
     
@@ -17,13 +19,14 @@ class Particle{
     {
         rk = new RK(100,4,10);
         realDia = dia;
-        c = palette[(int)rk.getNext(4)];
+        c = palette[(int)rk.getNext(palette.length)];
         colors.append(c);
         double[] randHolder = {0.2, 0.8};
         // a 1/5 chance that the particle moves in diagonal 
         if ((int)(rk.getNext(5)) == 2){
             pos = new PVector((int) (randHolder[(int)rk.getNext(2)] * height), (int) (randHolder[(int)rk.getNext(2)] * width));
-            vel = new PVector(rk.getNext(0.5,2), rk.getNext(0.5,2));
+            vel = new PVector(rk.getNext(1,3), rk.getNext(1,3));
+            diag = true;
         }
         else {
             // false: move horizontally
@@ -35,8 +38,8 @@ class Particle{
             pos = randStartPos(isVert);
             if(isVert)   vel = new PVector(rk.getNext(0.5,2) * dirSign, 0);
             else         vel = new PVector(0, rk.getNext(0.5,2) * dirSign);
-          }
         }
+    }
     
     // defining a starting position according to the movement direction
     PVector randStartPos(boolean dir)
@@ -110,6 +113,13 @@ class Particle{
         }
     }
     
+    void addLayer(color col)
+    {
+        layer += 1;
+        realDia += layerDia;
+        colors.append(col);
+    }
+    
     void display()
     {
         noStroke();
@@ -117,7 +127,7 @@ class Particle{
         //ellipse(pos.x, pos.y, dia + layer, dia + layer);
         for (int i = this.layer; i >= 0; i--){
           fill(colors.get(i));
-          ellipse(pos.x, pos.y, dia + i * 5, dia + i * 5);
+          ellipse(pos.x, pos.y, dia + i * layerDia, dia + i * layerDia);
         }
     }
 }

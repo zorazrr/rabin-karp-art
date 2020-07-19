@@ -39,20 +39,13 @@ void setup()
     }
     
     strokeWeight(3);
-    size(500, 500);
+    size(750, 750);
+    smooth();
     pixelDensity(2);
 }
 
 void draw()
 {
-    //RK rk = new RK(20,4,10);
-    //println(rk.txt + " " + rk.wd);
-    //for(int i = 0; i < 100; i++)
-    //{
-        
-    //    println(rk.getNext(4));
-    //}
-    //noLoop();
     background(255);
     displayLines();
     for(Particle p : ps)

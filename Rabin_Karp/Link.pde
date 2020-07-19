@@ -15,6 +15,10 @@ class Link{
     
     boolean needCheck()
     {
+        if(isDiag())
+        {
+            return true;
+        }
         return !(isSameHorVer() && isSameDir());
     }
     
@@ -28,6 +32,11 @@ class Link{
         return (p1.isRightOrDown && p2.isRightOrDown) || (!p1.isRightOrDown && !p2.isRightOrDown);
     }
     
+    boolean isDiag()
+    {
+        return p1.diag || p2.diag;
+    }
+    
     void collide()
     {
         if(!needCheck()) return;
@@ -35,10 +44,8 @@ class Link{
         {
             if(!isColliding)
             {
-                p1.layer += 1;
-                p2.layer += 1;
-                p1.colors.append(p2.c);
-                p2.colors.append(p1.c);
+                p1.addLayer(p2.c);
+                p2.addLayer(p1.c);
                 //p1.display();
                 //p2.display();
                 l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel), p1.c);
@@ -58,6 +65,11 @@ class Link{
         }
         else
         {
+            if(isColliding) 
+            {
+                //l1.end.add(PVector.mult(p1.vel, PVector.sub(p1.pos, new PVector(width/2, height/2)).mag() / p1.vel.mag()));
+                //l2.end.add(PVector.mult(p2.vel, p2.realDia / 3 / p2.vel.mag()));
+            }
             isColliding = false;
         }
     }
@@ -66,6 +78,6 @@ class Link{
     boolean isColliding()
     {
         float dis = PVector.sub(p2.pos, (p1.pos)).mag();
-        return dis < (p1.dia + p2.dia)/2;
+        return dis < (p1.realDia + p2.realDia)/2;
     }
 }
