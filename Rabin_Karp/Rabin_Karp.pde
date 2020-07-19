@@ -3,24 +3,26 @@
 
 import java.util.*; 
 
-Particle[] ps;
 
-Link[] links;
+Particle[] ps;                             // array that stores all the moving particles   
 
-ArrayList<Line> lines;
+Link[] links;                              // array that stores the link between particles 
 
-int numOfParticle = 20;
+ArrayList<Line> lines;                     // arraylist that stores all the lines 
 
-int numOfAlph = 4;                          // the number of Alphs exist in txt and wd (counting from `a`)
+int numOfParticle = 30;                    // number of particles
+
+int numOfAlph = 4;                         // the number of Alphs exist in txt and wd (counting from `a`)
 
 void setup()
 {
+    
     // init particles
     ps = new Particle[numOfParticle];
-    for(int i = 0; i < numOfParticle; i++)
-    {
+    for(int i = 0; i < numOfParticle; i++){
         ps[i] = new Particle(); 
     }
+    
     
     //init lines
     lines = new ArrayList<Line>();
@@ -38,7 +40,6 @@ void setup()
     
     size(500, 500);
     pixelDensity(2);
-    fill(127);
 }
 
 void draw()
@@ -49,7 +50,10 @@ void draw()
     {
         p.update();
         p.edges();
-        p.display();
+        //p.display();
+        for (int i = p.layer; i > 0; i --){
+          p.display();
+        }
     }
     checkColliding();
 }
@@ -69,7 +73,6 @@ void displayLines()
 
 
 // unit testing
-
 void test(int times)
 {
     for(int i = 0; i < times; i++)
