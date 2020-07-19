@@ -1,29 +1,63 @@
 import java.util.*;
 
+
 class Particle{
     PVector pos;                  // position
     PVector vel;                  // velocity
     float dia = 20;               // initial size   
     float realDia;               // initial size   
-    boolean isVert;
-    boolean isRightOrDown;
-    boolean diag;
-    float layerDia = 5;
-    int layer = 0;
+    boolean isVert;                // movement axis
+    boolean isRightOrDown;        //movement direction
+    boolean diag;                //diagonal movement 
+    float layerDia = 5;           // layer width
+    int layer = 0;                // number of color layers 
     color c;                      // initial color 
-    color[] palette = {#cfccfa, #5c7b65, #4c99c6, #cacaca, #a8a8a8, #ffffff, #12375b, #98d9d8, #000000, #878787};//{#265b94, #dbf7ff, #d6caae, #363231};
+    color[] palette = {#4c99c6, #12375b, #98d9d8, #ffffff, #6fa1d1, #497180}; //#5c7b65, #878787
     IntList colors = new IntList();
     RK rk;
     
     Particle()
     {
-        rk = new RK(100,4,10);
+        rk = new RK(100,4,6);
+        println(rk.index);
+        if (rk.index != -1){
+          this.palette = new color[1];
+          palette[0] = #FFF1CC;
+        }
         realDia = dia;
         c = palette[(int)rk.getNext(palette.length)];
         colors.append(c);
         double[] randHolder = {0.2, 0.8};
         // a 1/5 chance that the particle moves in diagonal 
         if ((int)(rk.getNext(5)) == 2){
+            // initialize position & velocity with Rabin Karp
+            pos = new PVector((int) (randHolder[(int)rk.getNext(2)] * height), (int) (randHolder[(int)rk.getNext(2)] * width));
+            vel = new PVector(rk.getNext(1,3), rk.getNext(3,5));
+            diag = true;
+        }
+        else {
+            // false: move horizontally
+            // true: move vertically 
+            isVert = randTruth();
+            isRightOrDown = randTruth();
+            int dirSign = isRightOrDown? 1:-1;
+            
+            pos = randStartPos(isVert);
+            if(isVert)   vel = new PVector(rk.getNext(3,5) * dirSign, 0);
+            else         vel = new PVector(0, rk.getNext(3,5) * dirSign);
+        }
+    }
+    
+    Particle(float dia){
+      this.dia = dia;
+      rk = new RK(100,4,10);
+        realDia = dia;
+        c = palette[(int)rk.getNext(palette.length)];
+        colors.append(c);
+        double[] randHolder = {0.2, 0.8};
+        // a 1/5 chance that the particle moves in diagonal 
+        if ((int)(rk.getNext(5)) == 2){
+            // initialize position & velocity with Rabin Karp
             pos = new PVector((int) (randHolder[(int)rk.getNext(2)] * height), (int) (randHolder[(int)rk.getNext(2)] * width));
             vel = new PVector(rk.getNext(1,3), rk.getNext(3,5));
             diag = true;
