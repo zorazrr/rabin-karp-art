@@ -6,6 +6,8 @@ import java.util.*;
 
 Particle[] ps;                             // array that stores all the moving particles   
 
+Particle[] smallPS;
+
 Link[] links;                              // array that stores the link between particles 
 
 ArrayList<Line> lines;                     // arraylist that stores all the lines 
@@ -16,11 +18,14 @@ int numOfAlph = 4;                         // the number of Alphs exist in txt a
 
 void setup()
 {
-    
     // init particles
     ps = new Particle[numOfParticle];
+    smallPS = new Particle[numOfParticle - 20];
     for(int i = 0; i < numOfParticle; i++){
         ps[i] = new Particle(); 
+    }
+    for (int i = 0; i < numOfParticle - 20; i++){
+      smallPS[i] = new Particle(10);
     }
     
     
@@ -55,6 +60,12 @@ void draw()
         p.display();
     }
     checkColliding();
+    for (Particle p: smallPS)
+    {
+      p.update();
+      p.edges();
+      p.display();
+    }
 }
 
 void checkColliding()
