@@ -48,23 +48,31 @@ class Link{
                 p2.addLayer(p1.c);
                 if(p1.diag)
                 {
+                    randomSeed(1);
                     l1 = new Line(p1.pos, PVector.add(p1.pos,PVector.mult(p1.vel, p1.realDia / p1.vel.mag())), p1.c);
+                    l1.w = (int)random(4);
                     lines.add(l1);
                 }
                 else
                 {
+                    randomSeed(0);
                     l1 = new Line(p1.pos, PVector.add(p1.pos,p1.vel), p1.c);
+                    l1.w = (int)random(4);
                     lines.add(l1);
                 }
                 
                 if(p2.diag)
                 {
+                    randomSeed(2);
                     l2 = new Line(p2.pos, PVector.add(p2.pos,PVector.mult(p2.vel, p2.realDia / p2.vel.mag())), p2.c);
+                    l2.w = (int)random(4);
                     lines.add(l2);
                 }
                 else
                 {
+                    randomSeed(3);
                     l2 = new Line(p2.pos, PVector.add(p2.pos,p2.vel), p2.c);
+                    l2.w = (int)random(6);
                     lines.add(l2);
                 }
                 isColliding = true;
